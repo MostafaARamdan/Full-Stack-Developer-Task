@@ -8,7 +8,7 @@ export const USERS_ROUTES: Routes = [
     component: UsersListComponent,
   },
   {
-    path: 'create',
+    path: 'add',
     component: PersistUserComponent,
   },
   {

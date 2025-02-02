@@ -17,5 +17,6 @@ namespace Full.Stack.Task.Application.Features.Users.Commands.EditUser
         public required string Email { get; set; } = string.Empty;
         public required string FullName { get; set; } = string.Empty;
         public required List<Guid> RoleIds { get; set; }
+        public required bool IsDeleted { get; set; }
     }
 }

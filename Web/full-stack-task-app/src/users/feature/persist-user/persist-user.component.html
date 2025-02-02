@@ -1,1 +1,125 @@
-<p>persist-user works!</p>
+<form
+  [formGroup]="userForm"
+  (ngSubmit)="onSubmit()"
+  class="container bg-light p-4 border rounded"
+>
+  <h2 class="mb-4 text-center">{{ editMode ? "Edit User" : "Add User" }}</h2>
+
+  <input type="hidden" formControlName="id" />
+
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control" formControlName="username" />
+        <div
+          *ngIf="
+            userForm.get('username')?.invalid &&
+            userForm.get('username')?.touched
+          "
+          class="text-danger"
+        >
+          Username is required (3-100 characters).
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+        />
+        <div *ngIf="!editMode" class="form-text text-muted">
+          Password is required for new users.
+        </div>
+        <div
+          *ngIf="
+            userForm.get('password')?.invalid &&
+            userForm.get('password')?.touched
+          "
+          class="text-danger"
+        >
+          Password is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="confirmPassword"
+        />
+        <div *ngIf="userForm.errors?.['mismatch']" class="text-danger">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>
+          <input type="checkbox" formControlName="isDeleted" />
+          Mark as Deleted
+        </label>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" />
+        <div
+          *ngIf="
+            userForm.get('email')?.invalid && userForm.get('email')?.touched
+          "
+          class="text-danger"
+        >
+          Valid email is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-control" formControlName="fullName" />
+        <div
+          *ngIf="
+            userForm.get('fullName')?.invalid &&
+            userForm.get('fullName')?.touched
+          "
+          class="text-danger"
+        >
+          Full name is required (3-255 characters).
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Roles</label>
+        <select class="form-select" multiple formControlName="roleIds">
+          <option *ngFor="let role of roles$ | async" [value]="role.id">
+            {{ role.name }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            userForm.get('roleIds')?.invalid && userForm.get('roleIds')?.touched
+          "
+          class="text-danger"
+        >
+          At least one role must be selected.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 text-center">
+    <button
+      type="submit"
+      class="btn btn-primary w-50"
+      [disabled]="userForm.invalid"
+    >
+      {{ editMode ? "Update" : "Create" }} User
+    </button>
+  </div>
+</form>

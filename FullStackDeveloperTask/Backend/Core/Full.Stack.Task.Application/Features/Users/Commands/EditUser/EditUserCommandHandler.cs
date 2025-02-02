@@ -25,12 +25,11 @@ namespace Full.Stack.Task.Application.Features.Users.Commands.EditUser
                 var user = await _userRepository.GetUserByIdAsync(request.Id);
                 if (user == null)
                     return Result<bool>.Error("User_not_found");
-                if (user.IsDeleted)
-                    return Result<bool>.Error("User_already_deleted");
                 var oldValues = JsonConvert.SerializeObject(_mapper.Map<UserDetailsDTO>(user));
                 if (!string.IsNullOrEmpty(request.Username)) user.Username = request.Username;
                 if (!string.IsNullOrEmpty(request.Email)) user.Email = request.Email;
                 if (!string.IsNullOrEmpty(request.FullName)) user.FullName = request.FullName;
+                user.IsDeleted = request.IsDeleted;
                 if (!string.IsNullOrEmpty(request.Password)) user.Password = await request.Password.Aragon2() ?? string.Empty;
 
                 user.ModifiedBy = Guid.Parse("85ED7233-602F-47E3-AFCB-B1AA8BE36CF7");

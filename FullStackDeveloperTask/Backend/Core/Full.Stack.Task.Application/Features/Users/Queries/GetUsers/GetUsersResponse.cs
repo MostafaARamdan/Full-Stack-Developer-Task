@@ -11,19 +11,10 @@ namespace Full.Stack.Task.Application.Features.Users.Queries.GetUsers
 {
     public class GetUsersResponse
     {
-        public List<UserDTO> Users { get; set; } = new();
+        public List<UserDetailsDTO> Users { get; set; } = new();
         public List<RoleDTO> Roles { get; set; } = new();
-        public int PagesCount { get; set; }
+        public int TotalCount { get; set; }
         public int CurrentPage { get; set; }
-    }
-    public class UserDTO
-    {
-        public Guid Id { get; set; }
-        public required string Username { get; set; }
-        public required string FullName { get; set; }
-        public required string Email { get; set; }
-        public required bool IsDeleted { get; set; }
-        public List<UserRoleDTO> UserRoles { get; set; }
     }
 
 }

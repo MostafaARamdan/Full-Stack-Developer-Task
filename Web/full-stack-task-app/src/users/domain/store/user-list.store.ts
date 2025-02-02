@@ -8,12 +8,14 @@ import {
   SortDescriptor,
 } from '@progress/kendo-data-query';
 import { UserService } from '../services/user.service';
-import { GetUsersResponse, RoleDto, UserDto } from '../dtos/users-response';
+import { GetUsersResponse } from '../dtos/users-response';
 import { GetUsersQuery } from '../dtos/users.query';
 import { ResponseStatus } from '../../../shared/domain/constants/response-status.enum';
+import { UserDetailsDTO } from '../dtos/user-details.dto';
+import { RoleDto } from '../dtos/role.dto';
 
 export interface UserListState {
-  users: UserDto[];
+  users: UserDetailsDTO[];
   roles: RoleDto[];
   loading: boolean;
   total: number;
@@ -73,9 +75,26 @@ export class UserListStore extends ComponentStore<UserListState> {
         };
         return this.userService.getUsers(query);
       }),
-      tap((response) => {
-        if (response.status == ResponseStatus.Success)
-          this.updateState(response.resource);
+      withLatestFrom(
+        this.select((state) => ({
+          pageSize: state.pageSize,
+        }))
+      ),
+      tap(([response, { pageSize }]) => {
+        if (response.status == ResponseStatus.Success) {
+          if (
+            response.resource.currentPage >
+            Math.ceil(response.resource.totalCount / pageSize)
+          ) {
+            this.setPagination({
+              pageSize: pageSize,
+              currentPage: 1,
+            });
+            this.loadUsers();
+          } else {
+            this.updateState(response.resource);
+          }
+        }
       }),
       tap(() => this.patchState({ loading: false }))
     )
@@ -85,7 +104,7 @@ export class UserListStore extends ComponentStore<UserListState> {
     ...state,
     users: response.users,
     roles: response.roles,
-    total: response.pagesCount,
+    total: response.totalCount,
     currentPage: response.currentPage,
   }));
 
@@ -125,4 +144,20 @@ export class UserListStore extends ComponentStore<UserListState> {
       .map((s) => `${s.dir?.toLowerCase() == 'desc' ? '-' : ''}${s.field}`)
       .join(',');
   }
+
+  readonly deleteUser = this.effect<string>((trigger$) =>
+    trigger$.pipe(
+      tap(() => this.patchState({ loading: true })),
+      switchMap((userId) => {
+        return this.userService.deleteUser(userId);
+      }),
+      tap((response) => {
+        if (response.status == ResponseStatus.Success) {
+          this.loadUsers();
+        }
+        console.log('this.deleteUser');
+      }),
+      tap(() => this.patchState({ loading: false }))
+    )
+  );
 }

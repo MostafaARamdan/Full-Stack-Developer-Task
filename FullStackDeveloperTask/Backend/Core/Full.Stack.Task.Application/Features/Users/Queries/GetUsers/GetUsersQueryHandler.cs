@@ -23,8 +23,8 @@ namespace Full.Stack.Task.Application.Features.Users.Queries.GetUsers
                 var response = new GetUsersResponse()
                 {
                     Roles = _mapper.Map<List<RoleDTO>>(await _roleRepository.GetAll()),
-                    Users = _mapper.Map<List<UserDTO>>(await _userRepository.GetUsers(request)),
-                    PagesCount = await _userRepository.GetUsersCount(request),
+                    Users = _mapper.Map<List<UserDetailsDTO>>(await _userRepository.GetUsers(request)),
+                    TotalCount = await _userRepository.GetUsersCount(request),
                     CurrentPage = request.PageNumber
                 };
                 return Result<GetUsersResponse>.Success(response, "Success");

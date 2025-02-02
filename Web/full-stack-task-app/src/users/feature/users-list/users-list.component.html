@@ -1,3 +1,11 @@
+<button
+  class="btn-icode"
+  title="Add new user"
+  routerLink="/users/add"
+  routerLinkActive="active"
+>
+  Add
+</button>
 <ng-container *ngIf="vm$ | async as vm">
   <kendo-grid
     [data]="{ data: vm.users, total: vm.total }"

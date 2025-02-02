@@ -16,6 +16,7 @@ namespace Full.Stack.Task.Application.Features.Users.Commands.AddUser
         public required string Email { get; set; } = string.Empty;
         public required string FullName { get; set; } = string.Empty;
         public required List<Guid> RoleIds { get; set; }
-        public required Guid CreatedBy { get; set; } 
+        public required Guid CreatedBy { get; set; }
+        public required bool IsDeleted { get; set; }
     }
 }

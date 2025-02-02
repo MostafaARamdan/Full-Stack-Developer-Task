@@ -20,15 +20,18 @@ namespace Full.Stack.Task.Application.Features.Users.Queries.GetUserById
         {
             try
             {
-                var model = await _userRepository.GetUserByIdAsync(request.Id);
-                if (model == null)
-                    return Result<GetUserByIdResponse>.Error("User_not_found");
                 var response = new GetUserByIdResponse()
                 {
-                    Roles = _mapper.Map<List<RoleDTO>>(await _roleRepository.GetAll())
+                    Roles = _mapper.Map<List<RoleDTO>>(await _roleRepository.GetAll()),
+                    User = new UserDetailsDTO() { Email = "", FullName = "", IsDeleted = false, Username = "" }
                 };
-                response.User = _mapper.Map<UserDetailsDTO>(model); ;
 
+                if (request.Id.HasValue)
+                {
+                    var model = await _userRepository.GetUserByIdAsync(request.Id.Value);
+                    if (model != null)
+                        response.User = _mapper.Map<UserDetailsDTO>(model);
+                }
                 return Result<GetUserByIdResponse>.Success(response, "Success");
             }
             catch

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { KENDO_DIALOGS, KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import {
@@ -21,7 +21,7 @@ import {
 
 import { Observable } from 'rxjs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { UserDto } from '../../domain/dtos/users-response';
+import { UserDetailsDTO } from '../../domain/dtos/user-details.dto';
 @Component({
   selector: 'app-users-list',
   standalone: true,
@@ -47,7 +47,7 @@ export class UsersListComponent implements OnInit {
   state: State = { skip: 0, take: 5, sort: [], filter: undefined };
   deleteConfirmation = false;
   selectedUser: any;
-  constructor(private userListStore: UserListStore) {
+  constructor(private userListStore: UserListStore, private _router: Router) {
     this.vm$ = this.userListStore.vm$;
   }
 
@@ -80,16 +80,19 @@ export class UsersListComponent implements OnInit {
     this.userListStore.setPagination({ pageSize, currentPage });
     this.userListStore.loadUsers();
   }
-  editUser(user: UserDto) {
-    console.log(user);
+  editUser(user: UserDetailsDTO) {
+    this._router.navigate(['/users/edit'], {
+      state: { userid: user.id },
+    });
   }
 
-  confirmDelete(user: UserDto) {
+  confirmDelete(user: UserDetailsDTO) {
     this.selectedUser = user;
     this.deleteConfirmation = true;
   }
 
   deleteUser() {
     this.deleteConfirmation = false;
+    this.userListStore.deleteUser(this.selectedUser.id);
   }
 }

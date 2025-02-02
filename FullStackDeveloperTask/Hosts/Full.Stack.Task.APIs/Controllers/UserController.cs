@@ -20,25 +20,25 @@ namespace Full.Stack.Task.APIs.Controllers
             return Ok(await mediator.Send(usersQuery));
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> Get(Guid Id)
+        [HttpGet("Get")]
+        public async Task<IActionResult> Get(Guid? id)
         {
-            return Ok(await mediator.Send(new GetUserByIdQuery() { Id = Id }));
+            return Ok(await mediator.Send(new GetUserByIdQuery() { Id = id }));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] AddUserCommand user)
+        public async Task<IActionResult> Add([FromBody] AddUserCommand user)
         {
             return Ok(await mediator.Send(user));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Edit([FromForm] EditUserCommand user)
+        public async Task<IActionResult> Edit([FromBody] EditUserCommand user)
         {
             return Ok(await mediator.Send(user));
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(Guid Id)
         {
             return Ok(await mediator.Send(new DeleteUserCommand() { Id = Id }));

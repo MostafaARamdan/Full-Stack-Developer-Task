@@ -9,6 +9,6 @@ namespace Full.Stack.Task.Application.Features.Users.Queries.GetUserById
 {
     public class GetUserByIdQuery : IQuery<GetUserByIdResponse>
     {
-        public required Guid Id { get; set; }
+        public  Guid? Id { get; set; }
     }
 }

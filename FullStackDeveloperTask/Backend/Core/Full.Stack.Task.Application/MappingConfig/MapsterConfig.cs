@@ -20,10 +20,7 @@ namespace Full.Stack.Task.Application.MappingConfig
                 .NewConfig()
                 .Map(dest => dest.UserRoles, src => src.UserRoles.Select(userRole => new UserRoleDTO { RoleId = userRole.RoleId }).ToList());
 
-            TypeAdapterConfig<User, UserDTO>
-                .NewConfig()
-                .Map(dest => dest.UserRoles, src => src.UserRoles.Select(userRole => new UserRoleDTO { RoleId = userRole.RoleId, RoleName = userRole.Role.Name }).ToList());
-
+         
             TypeAdapterConfig<AddUserCommand, User>
              .NewConfig()
              .Map(dest => dest.UserRoles, src => src.RoleIds.DistinctBy(roleId => roleId).Select(roleId => new UserRole { RoleId = roleId }));
