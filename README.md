@@ -1,4 +1,4 @@
-A modern web application built with .NET Core Clean Architecture and Angular, featuring authentication, authorization, and modular design.
+A modern web application built with .NET Core Clean Architecture and Angular, featuring authentication, authorization.
 
 ## Features
 
