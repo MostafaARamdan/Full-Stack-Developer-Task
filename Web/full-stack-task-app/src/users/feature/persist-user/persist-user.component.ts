@@ -58,13 +58,27 @@ export class PersistUserComponent implements OnInit {
         isDeleted: [false],
         createdBy: [''],
       },
-      { validator: this.passwordMatchValidator(this.editMode) }
+      { validator: this.passwordsMatchValidator }
     );
   }
+  setPasswordValidator() {
+    const passwordControl = this.userForm.get('password');
+    const confirmPasswordControl = this.userForm.get('confirmPassword');
 
+    if (!this.editMode) {
+      passwordControl?.setValidators([Validators.required]);
+      confirmPasswordControl?.setValidators([Validators.required]);
+    } else {
+      passwordControl?.clearValidators();
+      confirmPasswordControl?.clearValidators();
+    }
+    passwordControl?.updateValueAndValidity();
+    confirmPasswordControl?.updateValueAndValidity();
+  }
   ngOnInit() {
     const userId = history.state.userid as string;
     this.editMode = userId != undefined;
+    this.setPasswordValidator();
     this.store.loadUser(userId ?? '');
     this.store.user$.subscribe((user) => {
       if (user) {
@@ -77,22 +91,22 @@ export class PersistUserComponent implements OnInit {
     });
   }
 
-  passwordMatchValidator(editMode: boolean) {
-    return (form: FormGroup) => {
-      const password = form.get('password')?.value;
-      const confirmPassword = form.get('confirmPassword')?.value;
+  passwordsMatchValidator = (form: FormGroup) => {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
 
-      if (!editMode && !password) {
-        form.get('password')?.setErrors({ required: true });
-        return { required: true };
-      }
-
-      if (password || confirmPassword) {
-        return password === confirmPassword ? null : { mismatch: true };
-      }
+    // Allow empty passwords in edit mode
+    if (this.editMode && !password && !confirmPassword) {
       return null;
-    };
-  }
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      return { mismatch: true };
+    }
+
+    return null;
+  };
 
   onSubmit() {
     if (this.userForm.valid) {
