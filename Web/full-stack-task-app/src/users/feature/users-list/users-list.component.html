@@ -1,0 +1,85 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <kendo-grid
+    [data]="{ data: vm.users, total: vm.total }"
+    [loading]="vm?.loading"
+    [pageSize]="vm?.pageSize"
+    [skip]="(vm?.currentPage - 1) * vm?.pageSize"
+    [pageable]="true"
+    [sortable]="true"
+    [filterable]="true"
+    [sort]="state.sort"
+    [pageable]="{
+      buttonCount: buttonCount,
+      info: info,
+      type: 'numeric',
+      pageSizes: true
+    }"
+    (dataStateChange)="dataStateChange($event)"
+    (pageChange)="pageChange($event)"
+  >
+    <kendo-grid-column field="username" title="Username" filter="text">
+    </kendo-grid-column>
+    <kendo-grid-column
+      field="fullName"
+      title="Full Name"
+      filter="text"
+    ></kendo-grid-column>
+    <kendo-grid-column
+      field="email"
+      title="Email"
+      filter="text"
+    ></kendo-grid-column>
+    <kendo-grid-column field="isDeleted" title="Status" filter="boolean">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.isDeleted ? "Inactive" : "Active" }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column
+      field="edit"
+      title=""
+      [width]="30"
+      [filterable]="false"
+      [sortable]="false"
+      [resizable]="false"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <i
+          (click)="editUser(dataItem)"
+          (keydown.enter)="editUser(dataItem)"
+          class="fas fa-edit"
+        ></i>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column
+      field="delete"
+      title=""
+      [width]="30"
+      [filterable]="false"
+      [sortable]="false"
+      [resizable]="false"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="k-grid-ignore-click text-center">
+          <i
+            (keydown.enter)="confirmDelete(dataItem)"
+            (click)="confirmDelete(dataItem)"
+            class="fas fa-trash-alt"
+          ></i>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+  <kendo-dialog
+    *ngIf="deleteConfirmation"
+    title="Confirm Delete"
+    (close)="deleteConfirmation = false"
+  >
+    <p>Are you sure you want to delete this user?</p>
+    <kendo-dialog-actions>
+      <button kendoButton (click)="deleteConfirmation = false">Cancel</button>
+      <button kendoButton [themeColor]="'error'" (click)="deleteUser()">
+        Delete
+      </button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+</ng-container>
