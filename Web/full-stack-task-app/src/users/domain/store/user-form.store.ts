@@ -6,6 +6,7 @@ import { UserService } from '../services/user.service';
 import { ResponseStatus } from '../../../shared/util-common/domain/constants/response-status.enum';
 import { RoleDto } from '../dtos/role.dto';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../shared/util-common/domain/notifications/notification.service';
 
 interface UserFormState {
   user: UserDTO | null;
@@ -16,7 +17,11 @@ interface UserFormState {
 
 @Injectable()
 export class UserFormStore extends ComponentStore<UserFormState> {
-  constructor(private userService: UserService, private _router: Router) {
+  constructor(
+    private userService: UserService,
+    private _router: Router,
+    private notificationService: NotificationService
+  ) {
     super({ user: null, roles: [], loading: false, error: null });
   }
 
@@ -68,9 +73,14 @@ export class UserFormStore extends ComponentStore<UserFormState> {
       exhaustMap((user) => {
         return this.userService.addUser(user).pipe(
           tap({
-            next: () => {
+            next: (res) => {
               this.patchState({ loading: false });
-              this._router.navigate(['/users']);
+              if (res.status == ResponseStatus.Success)
+                this._router.navigate(['/users']);
+              else
+                res.messages.forEach((message) => {
+                  this.notificationService.showError(message);
+                });
             },
             error: (error) =>
               this.patchState({ error: error.message, loading: false }),
@@ -86,9 +96,14 @@ export class UserFormStore extends ComponentStore<UserFormState> {
       exhaustMap((user) =>
         this.userService.updateUser(user).pipe(
           tap({
-            next: () => {
+            next: (res) => {
               this.patchState({ loading: false });
-              this._router.navigate(['/users']);
+              if (res.status == ResponseStatus.Success)
+                this._router.navigate(['/users']);
+              else
+                res.messages.forEach((message) => {
+                  this.notificationService.showError(message);
+                });
             },
             error: (error) =>
               this.patchState({ error: error.message, loading: false }),

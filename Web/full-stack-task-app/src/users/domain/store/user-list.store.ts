@@ -13,6 +13,7 @@ import { GetUsersQuery } from '../dtos/users.query';
 import { ResponseStatus } from '../../../shared/util-common/domain/constants/response-status.enum';
 import { UserDetailsDTO } from '../dtos/user-details.dto';
 import { RoleDto } from '../dtos/role.dto';
+import { NotificationService } from '../../../shared/util-common/domain/notifications/notification.service';
 
 export interface UserListState {
   users: UserDetailsDTO[];
@@ -52,7 +53,10 @@ export class UserListStore extends ComponentStore<UserListState> {
     currentPage: state.currentPage,
   }));
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private notificationService: NotificationService
+  ) {
     super(initialState);
   }
   readonly loadUsers = this.effect<void>((trigger$) =>
@@ -149,9 +153,13 @@ export class UserListStore extends ComponentStore<UserListState> {
       }),
       tap((response) => {
         if (response.status == ResponseStatus.Success) {
-          this.loadUsers();
+          this.notificationService.showSuccess('User_Deleted_Success');
+        } else {
+          response.messages.forEach((message) => {
+            this.notificationService.showError(message);
+          });
         }
-        console.log('this.deleteUser');
+        this.loadUsers();
       }),
       tap(() => this.patchState({ loading: false }))
     )
