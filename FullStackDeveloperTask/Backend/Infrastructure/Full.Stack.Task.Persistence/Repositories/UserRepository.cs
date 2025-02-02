@@ -21,6 +21,7 @@ namespace Full.Stack.Task.Persistence.Repositories
             await _context.SaveChangesAsync();
             return user.Id;
         }
+
         public async Task<bool> UserExistsByUsernameAsync(string username)
         {
             return await _context.Users.AnyAsync(u => u.Username == username);
@@ -150,6 +151,13 @@ namespace Full.Stack.Task.Persistence.Repositories
             }
 
             return await query.CountAsync();
+        }
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+            return await _context.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Username == username);
         }
     }
 }

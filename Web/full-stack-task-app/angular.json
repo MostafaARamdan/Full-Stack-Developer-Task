@@ -6,6 +6,7 @@
     "full-stack-task-app": {
       "projectType": "application",
       "schematics": {
+        "strict": false,
         "@schematics/angular:component": {
           "style": "scss"
         }

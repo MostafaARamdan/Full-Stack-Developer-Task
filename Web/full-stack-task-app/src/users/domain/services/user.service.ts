@@ -1,12 +1,12 @@
 // user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { HttpService } from '../../../shared/domain/http/http.service';
+import { HttpService } from '../../../shared/util-common/domain/http/http.service';
 import { GetUsersResponse } from '../dtos/users-response';
 import { GetUsersQuery } from '../dtos/users.query';
-import { Response } from '../../../shared/domain/http/response';
+import { Response } from '../../../shared/util-common/domain/http/response';
 import { catchError, Observable, of } from 'rxjs';
-import { ResponseStatus } from '../../../shared/domain/constants/response-status.enum';
+import { ResponseStatus } from '../../../shared/util-common/domain/constants/response-status.enum';
 import { UserDTO } from '../dtos/user.dto';
 import { UserDetailsDTO } from '../dtos/user-details.dto';
 import { GetUserByIdResponse } from '../dtos/user-by-id-response';

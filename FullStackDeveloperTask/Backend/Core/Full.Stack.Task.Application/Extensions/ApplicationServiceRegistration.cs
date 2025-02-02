@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using Full.Stack.Task.Application.Behaviors;
+using Full.Stack.Task.Application.Contracts.Services;
 using Full.Stack.Task.Application.Events.AuditLogs;
 using Full.Stack.Task.Application.MappingConfig;
+using Full.Stack.Task.Application.Services;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -26,6 +28,7 @@ namespace Full.Stack.Task.Application.Extensions
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggerPipeLineBehavior<,>));
             });
 
+            services.AddScoped<IJwtService, JwtService>();
             var configMapper = TypeAdapterConfig.GlobalSettings;
             configMapper.Scan(Assembly.GetExecutingAssembly());
             services.AddSingleton(configMapper);

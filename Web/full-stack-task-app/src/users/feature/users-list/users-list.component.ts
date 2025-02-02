@@ -22,6 +22,7 @@ import {
 import { Observable } from 'rxjs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { UserDetailsDTO } from '../../domain/dtos/user-details.dto';
+import { PermissionsService } from '../../../shared/util-auth/domain/services/permissions.service';
 @Component({
   selector: 'app-users-list',
   standalone: true,
@@ -41,14 +42,25 @@ import { UserDetailsDTO } from '../../domain/dtos/user-details.dto';
 export class UsersListComponent implements OnInit {
   vm$!: Observable<any>;
   public buttonCount = 5;
+  public canEdit = false;
+  public canDelete = false;
+  public canAdd = false;
   public info = true;
   public pageSizes = [5, 10, 20];
   public filterMode: FilterableSettings = 'row';
   state: State = { skip: 0, take: 5, sort: [], filter: undefined };
   deleteConfirmation = false;
   selectedUser: any;
-  constructor(private userListStore: UserListStore, private _router: Router) {
+  constructor(
+    private userListStore: UserListStore,
+    private router: Router,
+    private permissionsService: PermissionsService
+  ) {
     this.vm$ = this.userListStore.vm$;
+    this.canAdd =
+      this.canEdit =
+      this.canDelete =
+        this.permissionsService.hasPermission('Admin');
   }
 
   ngOnInit(): void {
@@ -81,7 +93,7 @@ export class UsersListComponent implements OnInit {
     this.userListStore.loadUsers();
   }
   editUser(user: UserDetailsDTO) {
-    this._router.navigate(['/users/edit'], {
+    this.router.navigate(['/users/edit'], {
       state: { userid: user.id },
     });
   }

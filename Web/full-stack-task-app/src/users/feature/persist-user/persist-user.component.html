@@ -114,9 +114,12 @@
   </div>
 
   <div class="mt-4 text-center">
+    <button title="Cancel" routerLink="/users" class="btn btn-primary w-2 me-1">
+      Cancel
+    </button>
     <button
       type="submit"
-      class="btn btn-primary w-50"
+      class="btn btn-primary w-20"
       [disabled]="userForm.invalid"
     >
       {{ editMode ? "Update" : "Create" }} User

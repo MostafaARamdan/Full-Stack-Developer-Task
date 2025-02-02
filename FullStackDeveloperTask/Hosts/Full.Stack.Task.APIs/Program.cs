@@ -1,6 +1,7 @@
 using Full.Stack.Task.APIs.Extensions;
 using Full.Stack.Task.Application.Extensions;
 using Full.Stack.Task.Persistence.Extensions;
+using Microsoft.Extensions.Configuration;
 using NLog.Extensions.Logging;
 using System.Text.Json.Serialization;
 internal class Program
@@ -16,7 +17,10 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerDocumentation();
-        builder.Services.AddAPICORSExtension(builder.Configuration, MyAllowSpecificOrigins); 
+        builder.Services.AddAPICORSExtension(builder.Configuration, MyAllowSpecificOrigins);
+
+        builder.Services.ConfigureJwt(builder.Configuration);
+        builder.Services.AddAuthorization();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

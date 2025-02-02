@@ -10,7 +10,7 @@ import {
 import { UserService } from '../services/user.service';
 import { GetUsersResponse } from '../dtos/users-response';
 import { GetUsersQuery } from '../dtos/users.query';
-import { ResponseStatus } from '../../../shared/domain/constants/response-status.enum';
+import { ResponseStatus } from '../../../shared/util-common/domain/constants/response-status.enum';
 import { UserDetailsDTO } from '../dtos/user-details.dto';
 import { RoleDto } from '../dtos/role.dto';
 
@@ -75,12 +75,8 @@ export class UserListStore extends ComponentStore<UserListState> {
         };
         return this.userService.getUsers(query);
       }),
-      withLatestFrom(
-        this.select((state) => ({
-          pageSize: state.pageSize,
-        }))
-      ),
-      tap(([response, { pageSize }]) => {
+      withLatestFrom(this.select((state) => state.pageSize)),
+      tap(([response, pageSize]) => {
         if (response.status == ResponseStatus.Success) {
           if (
             response.resource.currentPage >

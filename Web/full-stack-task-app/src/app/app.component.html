@@ -1,1 +1,28 @@
-<router-outlet />
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Full Stack Developer Task</a>
+
+    <div
+      class="d-flex align-items-center"
+      *ngIf="(isLoggedIn$ | async) === true"
+    >
+      <div class="me-3">
+        <span class="text-muted">Welcome, </span>
+        <span class="fw-bold">{{ fullname$ | async }}</span>
+      </div>
+
+      <button
+        class="btn btn-outline-danger btn-sm"
+        (click)="logout()"
+        title="Logout"
+      >
+        <i class="fas fa-sign-out-alt me-2"></i>Logout
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container-fluid mt-4">
+  <router-outlet></router-outlet>
+</div>

@@ -3,7 +3,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { exhaustMap, switchMap, tap } from 'rxjs/operators';
 import { UserDTO } from '../dtos/user.dto';
 import { UserService } from '../services/user.service';
-import { ResponseStatus } from '../../../shared/domain/constants/response-status.enum';
+import { ResponseStatus } from '../../../shared/util-common/domain/constants/response-status.enum';
 import { RoleDto } from '../dtos/role.dto';
 import { Router } from '@angular/router';
 

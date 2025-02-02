@@ -1,4 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
-body {
-  background-color: #bababa;
+.bootstrap-grid {
+  /* Header styling */
+  .k-grid-header {
+    background-color: #f8f9fa;
+    .k-header {
+      padding: 1rem;
+      font-weight: 500;
+    }
+  }
+
+  /* Cell styling */
+  .k-grid-content {
+    td {
+      padding: 0.75rem;
+      vertical-align: middle;
+    }
+  }
+
+  /* Pagination styling */
+  .k-pager-wrap {
+    padding: 1rem;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+
+    .k-pager-numbers .k-current {
+      background-color: #0d6efd;
+      border-radius: 4px;
+    }
+  }
+
+  /* Filter row styling */
+  .k-filter-row {
+    td {
+      padding: 0.5rem;
+    }
+
+    .k-filtercell-operator {
+      background-color: #f8f9fa;
+    }
+  }
+
+  /* Inputs and buttons */
+  .k-textbox,
+  .k-dropdown {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+  }
+
+  .k-button {
+    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+  }
 }

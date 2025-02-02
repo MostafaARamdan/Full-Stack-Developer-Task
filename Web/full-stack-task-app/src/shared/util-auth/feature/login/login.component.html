@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4">Login</h2>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Email Input -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Username </label>
+              <input
+                type="username"
+                class="form-control"
+                id="username"
+                formControlName="username"
+                [ngClass]="{
+                  'is-invalid':
+                    (loginForm.get('username')?.invalid &&
+                      loginForm.get('username')?.touched) ||
+                    (error$ | async)
+                }"
+                placeholder="Enter Username"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('username')?.invalid &&
+                  loginForm.get('username')?.touched
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="loginForm.get('username')?.errors?.['required']">
+                  address is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid':
+                    (loginForm.get('password')?.invalid &&
+                      loginForm.get('password')?.touched) ||
+                    (error$ | async)
+                }"
+                placeholder="Enter password"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('password')?.invalid &&
+                  loginForm.get('password')?.touched
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                  Password is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div
+              *ngFor="let error of error$ | async"
+              class="alert alert-danger mb-3"
+            >
+              {{ error }}
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mb-3"
+              [disabled]="loading$ | async"
+            >
+              <span *ngIf="!(loading$ | async)">Login</span>
+              <span
+                *ngIf="loading$ | async"
+                class="spinner-border spinner-border-sm"
+              ></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

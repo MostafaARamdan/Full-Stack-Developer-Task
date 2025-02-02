@@ -22,5 +22,6 @@ namespace Full.Stack.Task.Application.Contracts.Persistence.Repositories
         TaskNamespace.Task DeleteAsync(User user);
         Task<List<User>> GetUsers(GetUsersQuery request);
         Task<int> GetUsersCount(GetUsersQuery request);
+        Task<User?> GetByUsernameAsync(string username);
     }
 }
