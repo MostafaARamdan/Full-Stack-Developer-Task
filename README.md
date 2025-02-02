@@ -2,7 +2,7 @@ A modern web application built with .NET Core Clean Architecture and Angular, fe
 
 ## Features
 
-### Backend (.NET Core 6+)
+### Backend (.NET Core 8)
 - ✅ Clean Architecture implementation
 - ✅ CQRS with MediatR
 - ✅ Object mapping with Mapster
@@ -13,7 +13,7 @@ A modern web application built with .NET Core Clean Architecture and Angular, fe
 - ✅ Password hashing with Argon2
 - 🔄 Localization (Arabic/English - In Progress)
 
-### Frontend (Angular 15+)
+### Frontend (Angular 18)
 - ✅ State management with NgRx & Component Store
 - ✅ Toastr notifications
 - ✅ Role-based permissions (ngx-permissions)
@@ -25,7 +25,7 @@ A modern web application built with .NET Core Clean Architecture and Angular, fe
 ## Technologies
 
 **Backend**
-- ASP.NET Core 6+
+- ASP.NET Core 8
 - MediatR
 - Mapster
 - FluentValidation
@@ -34,7 +34,7 @@ A modern web application built with .NET Core Clean Architecture and Angular, fe
 - JWT
 
 **Frontend**
-- Angular 15+
+- Angular 18
 - NgRx Store/Effects
 - Component Store
 - ngx-permissions
