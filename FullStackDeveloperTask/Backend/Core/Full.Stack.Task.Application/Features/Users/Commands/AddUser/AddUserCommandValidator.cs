@@ -57,7 +57,6 @@ namespace Full.Stack.Task.Application.Features.Users.Commands.AddUser
             return !await _userRepository.UserExistsByUsernameAsync(username);
         }
 
-        // 🔹 Custom Validation to Check Unique Email
         private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
         {
             return !await _userRepository.UserExistsByEmailAsync(email);

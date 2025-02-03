@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Security.Claims;
 
 namespace Full.Stack.Task.APIs.Controllers
 {
@@ -34,6 +35,8 @@ namespace Full.Stack.Task.APIs.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddUserCommand user)
         {
+            if (Guid.TryParse(User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value, out Guid userId))
+                user.CreatedBy = userId;
             return Ok(await mediator.Send(user));
         }
 
@@ -41,6 +44,8 @@ namespace Full.Stack.Task.APIs.Controllers
         [HttpPut]
         public async Task<IActionResult> Edit([FromBody] EditUserCommand user)
         {
+            if (Guid.TryParse(User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value, out Guid userId))
+                user.AuthenticatedUserID = userId;
             return Ok(await mediator.Send(user));
         }
 

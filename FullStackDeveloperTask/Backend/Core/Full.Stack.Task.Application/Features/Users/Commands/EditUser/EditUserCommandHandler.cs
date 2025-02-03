@@ -32,7 +32,7 @@ namespace Full.Stack.Task.Application.Features.Users.Commands.EditUser
                 user.IsDeleted = request.IsDeleted;
                 if (!string.IsNullOrEmpty(request.Password)) user.Password = await request.Password.Aragon2() ?? string.Empty;
 
-                user.ModifiedBy = Guid.Parse("85ED7233-602F-47E3-AFCB-B1AA8BE36CF7");
+                user.ModifiedBy = request.AuthenticatedUserID;
                 user.Modified = DateTime.UtcNow;
 
                 await _userRepository.UpdateAsync(user);
