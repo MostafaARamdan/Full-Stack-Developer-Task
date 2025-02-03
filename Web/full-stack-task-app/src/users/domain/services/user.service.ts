@@ -10,10 +10,11 @@ import { ResponseStatus } from '../../../shared/util-common/domain/constants/res
 import { UserDTO } from '../dtos/user.dto';
 import { UserDetailsDTO } from '../dtos/user-details.dto';
 import { GetUserByIdResponse } from '../dtos/user-by-id-response';
+import { environment } from '../../../shared/util-common/domain/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private readonly apiUrl = 'https://localhost:7277/api/User';
+  private readonly apiUrl = `${environment.apiUrl}/User`;
 
   constructor(private http: HttpService) {}
 

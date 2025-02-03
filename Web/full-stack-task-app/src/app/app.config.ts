@@ -30,6 +30,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from '../shared/util-auth/domain/Interceptors/auth.interceptor';
 import { ErrorInterceptor } from '../shared/util-auth/domain/Interceptors/error.interceptor';
+import { environment } from '../shared/util-common/domain/environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -46,7 +47,10 @@ export const appConfig: ApplicationConfig = {
       BrowserAnimationsModule,
       RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' }),
       StoreRouterConnectingModule.forRoot(),
-      StoreDevtoolsModule.instrument({ maxAge: 25 }),
+      StoreDevtoolsModule.instrument({
+        maxAge: 25,
+        logOnly: environment.production,
+      }),
       ToastrModule.forRoot({
         timeOut: 5000,
         positionClass: 'toast-bottom-right',

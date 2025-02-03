@@ -35,7 +35,7 @@ namespace Full.Stack.Task.Application.Features.Authentication.Commands.EmailAuth
                             recordId: user.Id,
                             action: "Login",
                             oldValues: null,
-                            newValues: JsonConvert.SerializeObject(request),
+                            newValues: JsonConvert.SerializeObject(request.Username),
                             userId: user.Id
                       ), cancellationToken);
                 return Result<AuthResponse>.Success(new AuthResponse {  Fullname = user.FullName, Token = jwtService.GenerateToken(user) }, "Success");

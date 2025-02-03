@@ -53,6 +53,12 @@
                   "maximumError": "4kB"
                 }
               ],
+              "fileReplacements": [
+                {
+                  "replace": "src/shared/util-common/domain/environments/environment.ts",
+                  "with": "src/shared/util-common/domain/environments/environment.prod.ts"
+                }
+              ],
               "outputHashing": "all"
             },
             "development": {

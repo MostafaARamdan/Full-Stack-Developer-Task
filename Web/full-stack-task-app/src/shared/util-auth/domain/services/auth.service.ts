@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { HttpService } from '../../../util-common/domain/http/http.service';
 import { AuthResponse } from '../dtos/auth.response';
 import { Response } from '../../../util-common/domain/http/response';
+import { environment } from '../../../util-common/domain/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   LOCAL_STORAGE_KEY = 'auth_token';
-  private readonly apiUrl = 'https://localhost:7277/api/Account';
+  private readonly apiUrl = `${environment.apiUrl}/Account`;
   constructor(private http: HttpService) {}
 
   login(
